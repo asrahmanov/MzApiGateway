@@ -1,0 +1,75 @@
+// Write your custom css/scss here
+
+@media (min-width: 576px) {
+    .modal-dialog {
+        max-width: 1200px;
+        margin: 30px auto;
+    }
+}
+
+.modal-content {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 60%;
+    pointer-events: auto;
+    background-color: #ffffff;
+    background-clip: padding-box;
+    border: 1px solid #e8ebf1;
+    border-radius: 0.3rem;
+    outline: 0;
+    margin: 0 auto;
+    max-height:90vh;
+    overflow-y: scroll;
+    &::-webkit-scrollbar {
+        width: 6px; /* ширина скролла */
+        background-color: #DCDCDC;
+        transition: 0.5s;
+
+        &-track {
+            -webkit-box-shadow: 5px 5px 5px -5px rgba(34, 60, 80, 0.2) inset;
+            background-color: #f9f9fd;
+            border-radius: 10px;
+        }
+
+        &-thumb {
+            background-color: #4250f2;
+            //background: linear-gradient(180deg, #ffffff, #4872F2);
+            border-radius: 30px;
+            transition: 0.5s;
+
+            &:hover {
+                background-color: #4250f2;
+            }
+        }
+    }
+}
+
+
+.boxshadow {
+    background-color: #8dace0 !important;
+    color: white;
+    font-weight: bold;
+}
+
+
+.wordspace {
+    word-wrap: break-word;
+    white-space: break-spaces !important;
+}
+
+
+#dataTables-example td, th {
+    word-wrap: break-word;
+    white-space: break-spaces !important;
+    max-width: 250px;
+}
+
+#dataTables-example {
+    width: 100%;
+}
+
+
+#apexBar svg {
+    min-height: 500px !important;;
+}
