@@ -61,18 +61,5 @@ class LoginController extends Controller
             }
         }
 
-    public function logout(Request $request){
 
-        $response = Http::withHeaders([
-            'Authorization'=>session('authorized')
-        ])->post(config('api.API_AUTH').'/api/auth/logout');
-//        dd($response->json());
-//        if ($response->ok()){
-            session()->flush();
-            return Redirect::route('auth.login.form');
-//        }else{
-//            return Redirect::back();
-//        }
-
-    }
 }

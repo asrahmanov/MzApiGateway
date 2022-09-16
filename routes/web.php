@@ -15,14 +15,14 @@ IlluminateRoute::$validators = array_filter($validators, function($validator) {
 //отключение чувствительности к регистру//
 
 
-Route::group(['prefix' => 'auth'], function(){
-    Route::get('login', function () { return view('auth.login'); })->name('auth.login.form');
-    Route::post('login','Auth\LoginController@login')->name('auth.login');
-    Route::get('register', 'Auth\RegisterController@form')->name('auth.registration.form');
-    Route::post('register', 'Auth\RegisterController@registration')->name('auth.registration');
-    Route::post('register-validator','Auth\RegisterController@registrationValidator')->name('register_validator');
-    Route::get('logout','Auth\LoginController@logout')->name('auth.logout');
-});
+//Route::group(['prefix' => 'auth'], function(){
+//    Route::get('login', function () { return view('auth.login'); })->name('auth.login.form');
+//    Route::post('login','Auth\LoginController@login')->name('auth.login');
+//    Route::get('register', 'Auth\RegisterController@form')->name('auth.registration.form');
+//    Route::post('register', 'Auth\RegisterController@registration')->name('auth.registration');
+//    Route::post('register-validator','Auth\RegisterController@registrationValidator')->name('register_validator');
+//    Route::get('logout','Auth\LoginController@logout')->name('users.logout');
+//});
 
 Route::group([
     'prefix'=>'companies',
@@ -44,117 +44,15 @@ Route::group([
     'prefix'=>'users',
     'as'=>'users.'
 ],function (){
-    Route::get('/test', 'Users\UsersController@createView')->name('createView')->middleware('isAuth');
-    Route::get('/createUser', 'Users\UsersController@createViewDzo')->name('createUser')->middleware('isAuth');
-    Route::get('/', 'Users\UsersController@userView')->name('view')->middleware('isAuth');
-    Route::get('/dzo', 'Users\UsersController@userViewDzo')->name('viewDzo')->middleware('isAuth');
-    Route::get('/info/{id}', 'Users\UsersController@userInfo')->name('info')->middleware('isAuth');
-    Route::get('/infoOne/{id}', 'Users\UsersController@userInfoOne')->name('one')->middleware('isAuth');
-    Route::get('/{id}', 'Users\UsersController@getOne')->middleware('isAuth');
-    Route::get('/getRole', 'Users\UsersController@getRole')->middleware('isAuth');
-    Route::post('/add', 'Users\UsersController@insert')->name('InsertUser')->middleware('isAuth');
-    Route::post('/list', 'Users\UsersController@list')->name('parentUsers')->middleware('isAuth');
-
-    Route::post('/dzo', 'Users\UsersController@listDzo')->name('userDzo')->middleware('isAuth');
-    Route::post('/edit', 'Users\UsersController@edit')->middleware('isAuth');
-
+    Route::get('/login/{login}/{password}', 'Users\UsersController@login');
+    Route::get('/logout', 'Users\UsersController@logout')->name('logout');
+    Route::get('login_view', function () { return view('auth.login'); })->name('auth');
 
 });
 
 
-Route::group([
-    'prefix'=>'manuals',
-    'as'=>'manuals.'
-],function (){
-    Route::get('/counterparties/all', 'Manuals\Counterparties\CounterpartiesController@index')->name('counterparties.all')->middleware('isAuth');
-    Route::get('/counterparties/list', 'Manuals\Counterparties\CounterpartiesController@list')->name('counterparties.list')->middleware('isAuth');
-    Route::get('/counterparties/create', 'Manuals\Counterparties\CounterpartiesController@create')->name('counterparties.create')->middleware('isAuth');
-    Route::post('/counterparties/checkinn/{inn}', 'Manuals\Counterparties\CounterpartiesController@checkinn')->middleware('isAuth');
-    Route::post('/counterparties/add', 'Manuals\Counterparties\CounterpartiesController@insert')->middleware('isAuth');
-});
 
 
-
-
-
-
-
-
-Route::group([
-    'prefix'=>'hr-report-types',
-    'as'=>'hr-report-types.'
-],function (){
-    Route::get('/', 'Hr\HrReportTypeController@list')->name('all')->middleware('isAuth');
-});
-
-Route::group([
-    'prefix'=>'hr-report',
-    'as'=>'hr-report.'
-],function (){
-    Route::post('/', 'Hr\HrReportController@insert')->middleware('isAuth');
-
-
-    Route::get('/index', 'Hr\HrReportController@index')->name('index')->middleware('isAuth');
-    Route::get('/report_view', 'Hr\HrReportController@report_view')->name('view')->middleware('isAuth');
-    Route::get('/report_covid', 'Hr\HrReportController@report_covid')->name('report_covid')->middleware('isAuth');
-    Route::get('/get-by-report-day/{report_day}/{company_id}', 'Hr\HrReportController@getReportByReportDayandCopmanyID')->middleware('isAuth');
-    Route::get('/ImportExel/{report_day}/{company_id}', 'Hr\HrReportController@ImportExel')->middleware('isAuth');
-});
-
-Route::group([
-    'prefix'=>'hr-report-covid',
-    'as'=>'hr-report-covid.'
-],function (){
-    Route::post('/', 'Hr\HrReportCovidController@insert')->middleware('isAuth');
-
-    Route::get('/addReport', 'Hr\HrReportCovidController@addReport')->name('covid')->middleware('isAuth');
-    Route::get('/viewReport', 'Hr\HrReportCovidController@report_covid')->name('report_covid')->middleware('isAuth');
-    Route::get('/index', 'Hr\HrReportCovidController@index')->name('index')->middleware('isAuth');
-    Route::get('/get-by-report-day/{report_day}/{company_id}', 'Hr\HrReportCovidController@getReportByReportDayandCopmanyID')->middleware('isAuth');
-    Route::get('/ImportExel/{report_day}/{company_id}', 'Hr\HrReportCovidController@ImportExel')->middleware('isAuth');
-});
-
-Route::group([
-    'prefix'=>'production-report',
-    'as'=>'production-report.'
-],function (){
-    Route::post('/', 'Production\ProductionReportController@insert')->middleware('isAuth');
-
-    Route::get('/addReport', 'Production\ProductionReportController@addReport')->name('addReport')->middleware('isAuth');
-    Route::get('/index', 'Production\ProductionReportController@index')->name('report_view')->middleware('isAuth');
-    Route::get('/dash-board', 'Production\ProductionReportController@dashBoard')->name('dashBoard')->middleware('isAuth');
-    Route::get('/get-by-report-day/{report_day}/{company_id}', 'Production\ProductionReportController@getReportByReportDayandCopmanyID')->middleware('isAuth');
-    Route::get('/get-by-report-between/{report_day_from}/{report_day_to}/{company_id}', 'Production\ProductionReportController@getByReportBetween')->middleware('isAuth');
-    Route::get('/ImportExel/{report_day}/{company_id}', 'Production\ProductionReportController@ImportExel')->middleware('isAuth');
-});
-
-Route::group([
-    'prefix'=>'interview-worksheets',
-    'as'=>'interview-worksheets.'
-],function (){
-    Route::post('/', 'Interview\InterviewController@insert')->middleware('isAuth');
-    Route::post('/edit', 'Interview\InterviewController@edit')->middleware('isAuth');
-    Route::post('/create', 'Interview\InterviewController@createWorkSheetsforUser')->middleware('isAuth');
-    Route::get('/view', 'Interview\InterviewController@viewReport')->name('view')->middleware('isAuth');
-    Route::get('/all', 'Interview\InterviewController@viewReportAll')->name('all')->middleware('isAuth');
-    Route::get('/', 'Interview\InterviewController@getReportAll')->middleware('isAuth');
-    Route::get('/view_close', 'Interview\InterviewController@viewClose')->name('view_close')->middleware('isAuth');
-    Route::get('/views/{id}', 'Interview\InterviewController@viewReportById')->middleware('isAuth');
-    Route::get('/view/{id}', 'Interview\InterviewController@viewOne')->middleware('isAuth');
-    Route::get('/getAll', 'Interview\InterviewController@addReport')->name('addReport')->middleware('isAuth');
-    Route::get('/get-by-userId/{user_id}', 'Interview\InterviewController@getByUserId')->middleware('isAuth');
-    Route::get('/get-by-id/{user_id}', 'Interview\InterviewController@getById')->middleware('isAuth');
-    Route::get('/createWorkSheets', 'Interview\InterviewController@createWorkSheets')->name('createWorkSheets')->middleware('isAuth');
-});
-
-
-Route::group([
-    'prefix'=>'data-aggregation',
-    'as'=>'data-aggregation.'
-],function (){
-    Route::get('/dashboardOne', 'DataAggregation\ViewController@dashboardOne')->name('dashboardOne')->middleware('isAuth');
-    Route::get('/dashboardTwo', 'DataAggregation\ViewController@dashboardTwo')->name('dashboardTwo')->middleware('isAuth');
-});
 
 
 Route::group([
@@ -165,181 +63,21 @@ Route::group([
 });
 
 
-Route::group([
-    'prefix'=>'data-aggregation-contract-and-fact',
-    'as'=>'data-aggregation-contract-and-fact.'
-],function (){
-    Route::post('/', 'DataAggregation\ContractAndFactController@insert')->middleware('isAuth');
-    Route::post('/edit', 'DataAggregation\ContractAndFactController@edit')->middleware('isAuth');
-    Route::get('/getAll', 'DataAggregation\ContractAndFactController@list')->middleware('isAuth');
-    Route::get('/get-by-id/{id}', 'DataAggregation\ContractAndFactController@getById')->middleware('isAuth');
-    Route::get('/get-by-name/{company_name}', 'DataAggregation\ContractAndFactController@getByCompanyName')->middleware('isAuth');
-});
-
-Route::group([
-    'prefix'=>'data-aggregation-plan-contract',
-    'as'=>'data-aggregation-plan-contract.'
-],function (){
-    Route::post('/', 'DataAggregation\PlanContractController@insert')->middleware('isAuth');
-    Route::post('/edit', 'DataAggregation\PlanContractController@edit')->middleware('isAuth');
-    Route::get('/getAll', 'DataAggregation\PlanContractController@list')->middleware('isAuth');
-    Route::get('/get-by-id/{id}', 'DataAggregation\PlanContractController@getById')->middleware('isAuth');
-    Route::get('/get-by-name/{company_name}', 'DataAggregation\PlanContractController@getByCompanyName')->middleware('isAuth');
-    Route::get('/getGroup', 'DataAggregation\PlanContractController@getGroup')->middleware('isAuth');
-});
-
-
-Route::group([
-    'prefix'=>'data-aggregation-budget',
-    'as'=>'data-aggregation-budget.'
-],function (){
-    Route::post('/', 'DataAggregation\BudgetController@insert')->middleware('isAuth');
-    Route::post('/edit', 'DataAggregation\BudgetController@edit')->middleware('isAuth');
-    Route::get('/getAll', 'DataAggregation\BudgetController@list')->middleware('isAuth');
-    Route::get('/get-by-id/{id}', 'DataAggregation\BudgetController@getById')->middleware('isAuth');
-});
-
-Route::group([
-    'prefix'=>'data-aggregation-operational-plan',
-    'as'=>'data-aggregation-operational-plan.'
-],function (){
-    Route::post('/', 'DataAggregation\OperationalPlanController@insert')->middleware('isAuth');
-    Route::post('/edit', 'DataAggregation\OperationalPlanController@edit')->middleware('isAuth');
-    Route::get('/getAll', 'DataAggregation\OperationalPlanController@list')->middleware('isAuth');
-    Route::get('/get-by-id/{id}', 'DataAggregation\OperationalPlanController@getById')->middleware('isAuth');
-    Route::get('/get-by-name/{company_name}', 'DataAggregation\OperationalPlanController@getByCompanyName')->middleware('isAuth');
-});
-
-
-
-Route::group([
-    'prefix'=>'data-aggregation-expected-revenue',
-    'as'=>'data-aggregation-expected-revenue.'
-],function (){
-    Route::post('/', 'DataAggregation\ExpectedRevenueController@insert')->middleware('isAuth');
-    Route::post('/edit', 'DataAggregation\ExpectedRevenueController@edit')->middleware('isAuth');
-    Route::get('/getAll', 'DataAggregation\ExpectedRevenueController@list')->name('addReport')->middleware('isAuth');
-    Route::get('/get-by-id/{id}', 'DataAggregation\ExpectedRevenueController@getById')->middleware('isAuth');
-    Route::get('/get-by-name/{company_name}', 'DataAggregation\ExpectedRevenueController@getByCompanyName')->middleware('isAuth');
-    Route::get('/getGroup', 'DataAggregation\ExpectedRevenueController@getGroup')->middleware('isAuth');
-});
-
-
-
-
-Route::group([
-    'prefix'=>'interview-form',
-    'as'=>'interview-form.'
-],function (){
-    Route::get('/get-by-id/{id}', 'Interview\InterviewFormController@getById')->middleware('isAuth');
-    Route::post('/', 'Interview\InterviewFormController@insert')->middleware('isAuth');
-    Route::post('/edit', 'Interview\InterviewFormController@edit')->middleware('isAuth');
-    Route::get('/view', 'Interview\InterviewFormController@viewReport')->name('view')->middleware('isAuth');
-    Route::get('/all', 'Interview\InterviewFormController@viewReportAll')->name('all')->middleware('isAuth');
-    Route::get('/create', 'Interview\InterviewFormController@createViewForm')->name('create')->middleware('isAuth');
-    Route::get('/', 'Interview\InterviewFormController@getReportAll')->middleware('isAuth');
-    Route::get('/view_close', 'Interview\InterviewFormController@viewClose')->name('view_close')->middleware('isAuth');
-    Route::get('/views/{id}', 'Interview\InterviewFormController@viewReportById')->middleware('isAuth');
-    Route::get('/view/{id}', 'Interview\InterviewFormController@viewOne')->middleware('isAuth');
-    Route::delete('/{id}', 'Interview\InterviewFormController@delete')->middleware('isAuth');
-    Route::get('/getAll', 'Interview\InterviewFormController@addReport')->name('addReport')->middleware('isAuth');
-    Route::get('/get-by-userId/{user_id}', 'Interview\InterviewFormController@getByUserId')->middleware('isAuth');
-});
-
-
-
-
-Route::group([
-    'prefix'=>'security-report',
-    'as'=>'security-report.'
-],function (){
-    Route::get('/create', 'Security\SecurityController@index')->name('index')->middleware('isAuth');
-    Route::get('/viewReport', 'Security\SecurityController@view')->name('viewReport')->middleware('isAuth');
-    Route::get('/get-by-report-day/{event_day}/{company_id}', 'Security\SecurityController@get_by_report_day')->middleware('isAuth');
-    Route::post('/', 'Security\SecurityController@insert')->middleware('isAuth');
-
-});
-
-Route::group([
-    'prefix'=>'security-event',
-    'as'=>'security-event.'
-],function (){
-    Route::get('/', 'Security\SecurityEventController@list')->name('getEvent')->middleware('isAuth');
-});
 
 
 
 
 
-Route::group([
-    'prefix'=>'project',
-    'as'=>'project.'
-],function (){
-    Route::get('/', 'Project\ProjectController@index')->name('all')->middleware('isAuth');
-    Route::get('/product', 'Project\ProjectController@product')->name('product')->middleware('isAuth');
-    Route::get('/productList', 'Project\ProjectController@productList')->name('productList')->middleware('isAuth');
-    Route::get('/productReport/{name}', 'Project\ProjectController@productReport')->name('productReport')->middleware('isAuth');
-    Route::get('/info/{id}', 'Project\ProjectController@show')->name('show')->middleware('isAuth');
-    Route::get('/graph', 'Project\ProjectController@graph')->name('graph')->middleware('isAuth');
-    Route::get('/report', 'Project\ProjectController@report')->name('report')->middleware('isAuth');
-    Route::get('/dashboards', 'Project\ProjectController@dashboards')->name('dashboards')->middleware('isAuth');
-    Route::get('/getType', 'Project\ProjectController@getType')->middleware('isAuth');
-    Route::get('/getAppointment', 'Project\ProjectController@getAppointment')->middleware('isAuth');
-    Route::post('/create', 'Project\ProjectController@insert')->middleware('isAuth');
-    Route::post('/reportCreate', 'Project\ProjectController@reportCreate')->middleware('isAuth');
-    Route::get('/stage', 'Project\ProjectController@getStageView')->name('stage')->middleware('isAuth');
-    Route::get('/status', 'Project\ProjectController@getStatusView')->name('status')->middleware('isAuth');
-    Route::get('/type', 'Project\ProjectController@getTypeView')->name('type')->middleware('isAuth');
-    Route::post('/update', 'Project\ProjectController@update')->middleware('isAuth');
-    Route::get('/getProjectByUser/{user_id}', 'Project\ProjectController@getProjectByUser')->middleware('isAuth');
-    Route::get('/getProjectAll', 'Project\ProjectController@getProjectAll')->middleware('isAuth');
-    Route::get('/getProjectById/{project_id}', 'Project\ProjectController@getProjectById')->middleware('isAuth');
-    Route::get('/getStatus', 'Project\ProjectController@getProjectStatus')->middleware('isAuth');
-    Route::get('/getStage', 'Project\ProjectController@getStage')->middleware('isAuth');
-    Route::get('/getReport/{project_id}', 'Project\ProjectController@getReport')->middleware('isAuth');
-    Route::get('/getReportByUser/{user_id}', 'Project\ProjectController@getReportByUser')->middleware('isAuth');
-    Route::get('/getReportAll', 'Project\ProjectController@getReportAll')->middleware('isAuth');
-    Route::get('/getLastReport/{project_id}', 'Project\ProjectController@getLastReport')->middleware('isAuth');
-});
 
 
 
-Route::group([
-    'prefix'=>'contract',
-    'as'=>'contract.'
-],function (){
-    Route::get('/', 'Contract\ContractController@index')->name('all')->middleware('isAuth');
-    Route::get('/product', 'Contract\ContractController@product')->name('product')->middleware('isAuth');
-    Route::get('/info/{id}', 'Contract\ContractController@show')->name('show')->middleware('isAuth');
-    Route::get('/graph', 'Contract\ContractController@graph')->name('graph')->middleware('isAuth');
-    Route::get('/report', 'Contract\ContractController@report')->name('report')->middleware('isAuth');
-    Route::get('/dashboards', 'Contract\ContractController@dashboards')->name('dashboards')->middleware('isAuth');
-    Route::get('/getType', 'Contract\ContractController@getType')->middleware('isAuth');
-    Route::get('/getAppointment', 'Contract\ContractController@getAppointment')->middleware('isAuth');
-    Route::post('/create', 'Contract\ContractController@insert')->middleware('isAuth');
-    Route::post('/reportCreate', 'Contract\ContractController@reportCreate')->middleware('isAuth');
-    Route::get('/stage', 'Contract\ContractController@getStageView')->name('stage')->middleware('isAuth');
-    Route::get('/status', 'Contract\ContractController@getStatusView')->name('status')->middleware('isAuth');
-    Route::get('/type', 'Contract\ContractController@getTypeView')->name('type')->middleware('isAuth');
-    Route::post('/update', 'Contract\ContractController@update')->middleware('isAuth');
-    Route::get('/getContractByUser/{user_id}', 'Contract\ContractController@getContractByUser')->middleware('isAuth');
-    Route::get('/getContractAll', 'Contract\ContractController@getContractAll')->middleware('isAuth');
-    Route::get('/getContractById/{Contract_id}', 'Contract\ContractController@getContractById')->middleware('isAuth');
-    Route::get('/getStatus', 'Contract\ContractController@getContractStatus')->middleware('isAuth');
-    Route::get('/getStage', 'Contract\ContractController@getStage')->middleware('isAuth');
-    Route::get('/getReport/{contract_id}', 'Contract\ContractController@getReport')->middleware('isAuth');
-    Route::get('/getReportAll', 'Contract\ContractController@getReportAll')->middleware('isAuth');
-    Route::get('/getReportByUser/{user_id}', 'Contract\ContractController@getReportByUser')->middleware('isAuth');
-    Route::get('/getLastReport/{contract_id}', 'Contract\ContractController@getLastReport')->middleware('isAuth');
-});
 
 
-Route::match(['get','post'],'/import-from-excel','ImportFromExcelController@importProjectsAndContracts')->name('import-from-excel');
 
 
-//Route::get('/', 'Companies\CompaniesController@index')->name('all')->middleware('isAuth');
-//Route::get('/', function () { return view('pages.mainPage'); })->name('mainPage')->middleware('isAuth');
+
 Route::get('/', 'Controller@main')->name('mainPage')->middleware('isAuth');
+
 
 
 

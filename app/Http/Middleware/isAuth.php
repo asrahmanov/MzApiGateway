@@ -19,30 +19,34 @@ class isAuth
     public function handle(Request $request, Closure $next)
     {
 
-//        if(!strlen(session('authorized')) == 64) {
-//            $request->session()->flush();
-//            return Redirect::route('auth.login.form');
-//        }
-//        return $next($request);
-
-
-
+        $token = session()->get('authorized');
         $response = Http::withHeaders([
-            'Authorization'=>session('authorized')
-        ])->post(config('api.API_AUTH').'/api/auth/checkSession');
-        $check = $response->json();
-        if(!is_null($check)){
-            $ch = $check['check'];
-            if($ch) {
-                return $next($request);
-            } else {
-              $request->session()->flush();
-              return Redirect::route('auth.login.form');
-            }
+        ])->post(config('api.API_AUTH') . "/api/mz-users/checkSession", ['token' => $token]);
+
+        if(($response->json())) {
+            // Токен подтвержден
+            return $next($request);
+
         } else {
-//            $request->session()->flush();
-            return Redirect::route('auth.login.form');
+            $request->session()->flush();
+              return Redirect::route('users.auth');
         }
+
+
+
+//        $check = $response->json();
+//        if(!is_null($check)){
+//            $ch = $check['check'];
+//            if($ch) {
+//                return $next($request);
+//            } else {
+//
+
+//            }
+//        } else {
+////            $request->session()->flush();
+//            return Redirect::route('users.auth');
+//        }
 
     }
 }

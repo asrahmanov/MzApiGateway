@@ -18,7 +18,7 @@ Route::get('/', function () {
 
 Route::post('auth/login','Auth\LoginController@login')->name('auth.login');
 
-Route::get('auth/logout','Auth\LoginController@logout')->name('auth.logout');
+Route::get('auth/logout','Auth\LoginController@logout')->name('users.logout');
 
 Route::group(['prefix' => 'email'], function(){
     Route::get('inbox', function () { return view('pages.email.inbox'); });

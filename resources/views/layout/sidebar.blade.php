@@ -1,7 +1,7 @@
 <nav class="sidebar">
     <div class="sidebar-header">
-        <a href="/" class="sidebar-brand">
-            {{env('LOGO_NAME')}}<span style="font-size: 15px;"> {{env('LOGO_POSTFIX')}}</span>
+        <a href="#" class="sidebar-brand">
+            {{ env("APP_NAME") }}
         </a>
         <div class="sidebar-toggler not-active">
             <span></span>
@@ -11,375 +11,361 @@
     </div>
     <div class="sidebar-body">
         <ul class="nav">
-            @if (($user['role_id'] ?? "") === 1)
-                <li class="nav-item nav-category">
+            <li class="nav-item nav-category">Main</li>
+            <li class="nav-item {{ active_class(['/']) }}">
+                <a href="{{ url('/') }}" class="nav-link">
                     <i class="link-icon" data-feather="box"></i>
-                    ГРАЖДАНСКАЯ ПРОД.
-                </li>
-
-                <li class="nav-item mt-2 {{ active_class(['project']) }}">
-                    <a href="{{ route('project.all') }}" class="nav-link">
-                        <span class="link-title">Проекты</span>
-                    </a>
-                </li>
-
-                {{--        <li class="nav-item {{ active_class(['project/report']) }}">--}}
-                {{--            <a href="{{ route('project.report') }}" class="nav-link">--}}
-                {{--                <span class="link-title">Отчет по проектам </span>--}}
-                {{--            </a>--}}
-                {{--        </li>--}}
-                <li class="nav-item {{ active_class(['contract']) }}">
-                    <a href="{{ route('contract.all') }}" class="nav-link">
-                        <span class="link-title">Контракты</span>
-                    </a>
-                </li>
-            @endif
-            {{--        <li class="nav-item">--}}
-            {{--            <a class="nav-link" data-toggle="collapse" href="#contracts" role="button"  >--}}
-            {{--                <span class="link-title">Договоры</span>--}}
-            {{--                <i class="link-arrow" data-feather="chevron-down"></i>--}}
-            {{--            </a>--}}
-            {{--            <div class="collapse" id="contracts">--}}
-            {{--                <ul class="nav sub-menu">--}}
-            {{--                    <li class="nav-item">--}}
-            {{--                        <a href="#" class="nav-link ">Услуги</a>--}}
-            {{--                    </li>--}}
-
-            {{--                    <li class="nav-item">--}}
-            {{--                        <a href="#" class="nav-link">Продукция</a>--}}
-            {{--                    </li>--}}
-
-            {{--                </ul>--}}
-            {{--            </div>--}}
-            {{--        </li>--}}
+                    <span class="link-title">Рабочий стол</span>
+                </a>
+            </li>
 
 
-{{--                @if (($user['role_id'] ?? "") === 2)--}}
-{{--                    <li class="nav-item">--}}
-{{--                        <a href="../../users/infoOne/{{ $user['id'] }}"--}}
-{{--                           class="nav-link {{ active_class(['users/']) }}">Для заполнения</a>--}}
-{{--                    </li>--}}
-{{--                @endif--}}
-
-{{--                @if (($user['role_id'] ?? "") === 2)--}}
-{{--                    <li class="nav-item">--}}
-{{--                        <a href="{{ route('users.createUser') }}"--}}
-{{--                           class="nav-link {{ active_class(['users/']) }}">Создание пользователя</a>--}}
-{{--                    </li>--}}
-{{--                @endif--}}
-
-
-                @if (($user['role_id'] ?? "") === 2)
-                    <li class="nav-item nav-category">
-                        <i class="link-icon" data-feather="box"></i>
-                        Запросы
-                    </li>
-                    <ul class="nav sub-menu mt-2">
+            <li class="nav-item nav-category">Пацинеты</li>
+            <li class="nav-item {{ active_class(['patients/*']) }}">
+                <a class="nav-link" data-toggle="collapse" href="#email" role="button" aria-expanded="{{ is_active_route(['patients/*']) }}" aria-controls="email">
+                    <i class="link-icon" data-feather="users"></i>
+                    <span class="link-title">Пацинеты</span>
+                    <i class="link-arrow" data-feather="chevron-down"></i>
+                </a>
+                <div class="collapse {{ show_class(['email/*']) }}" id="email">
+                    <ul class="nav sub-menu">
                         <li class="nav-item">
-                            <a href="{{ route('interview-worksheets.view') }}"
-                               class="nav-link">
-                                К исполнению</a>
+                            <a href="{{ url('/patients/search') }}" class="nav-link {{ active_class(['patients/search']) }}">Найти</a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('interview-worksheets.view_close') }}"
-                               class="nav-link">
-                                Завершенные</a>
+                            <a href="{{ url('/patients/create') }}" class="nav-link {{ active_class(['patients/create']) }}">Создать</a>
                         </li>
 
                     </ul>
+                </div>
+            </li>
 
-                @endif
-
-
-
-
-
-                @if (($user['role_id'] ?? "") === 7 OR ($user['role_id'] ?? "") === 1)
-                    <li class="nav-item nav-category">
-                        <i class="link-icon" data-feather="box"></i>
-                       Отчеты
-                    </li>
-                    <ul class="nav sub-menu mt-2">
+            <li class="nav-item nav-category">web apps</li>
+            <li class="nav-item {{ active_class(['email/*']) }}">
+                <a class="nav-link" data-toggle="collapse" href="#email" role="button" aria-expanded="{{ is_active_route(['email/*']) }}" aria-controls="email">
+                    <i class="link-icon" data-feather="mail"></i>
+                    <span class="link-title">Email</span>
+                    <i class="link-arrow" data-feather="chevron-down"></i>
+                </a>
+                <div class="collapse {{ show_class(['email/*']) }}" id="email">
+                    <ul class="nav sub-menu">
                         <li class="nav-item">
-                            <a href="{{ route('users.viewDzo') }}"
-                               class="nav-link {{ active_class(['users/create']) }}">
-                                Ответственные</a>
+                            <a href="{{ url('/email/inbox') }}" class="nav-link {{ active_class(['email/inbox']) }}">Inbox</a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('interview-worksheets.all') }}"
-                               class="nav-link">
-                                Отчеты</a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a href="{{ route('interview-form.all') }}"
-                               class="nav-link">
-                                Виды форм</a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a href="{{ route('interview-form.create') }}"
-                               class="nav-link">
-                                Создание формы</a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a href="{{ route('interview-worksheets.createWorkSheets') }}"
-                               class="nav-link">
-                                Отправка заданий</a>
-                        </li>
-
-                    </ul>
-
-                @endif
-
-
-                @if (($user['role_id'] ?? "") === 7 OR ($user['role_id'] ?? "") === 1)
-                    <li class="nav-item nav-category">
-                        <i class="link-icon" data-feather="box"></i>
-                        1С
-                    </li>
-                    <ul class="nav sub-menu mt-2">
-                        <li class="nav-item">
-                            <a href="{{ route('data-aggregation.dashboardOne') }}"
-                               class="nav-link {{ active_class(['data-aggregation/dashboardOne']) }}">
-                                Дашборд 1</a>
+                            <a href="{{ url('/email/read') }}" class="nav-link {{ active_class(['email/read']) }}">Read</a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('data-aggregation.dashboardTwo') }}"
-                               class="nav-link {{ active_class(['data-aggregation/dashboardTwo']) }}">
-                                Дашборд 2</a>
+                            <a href="{{ url('/email/compose') }}" class="nav-link {{ active_class(['email/compose']) }}">Compose</a>
                         </li>
                     </ul>
-
-                @endif
-
-
-
-            @if (($user['role_id'] ?? "") === 1)
-{{--                <li class="nav-item ">--}}
-{{--                    <a href="{{ route('project.product') }}" class="nav-link">--}}
-{{--                        <span class="link-title">Продукты</span>--}}
-{{--                    </a>--}}
-{{--                </li>--}}
+                </div>
+            </li>
 
 
 
-                <li class="nav-item nav-category">
-                    <i class="link-icon" data-feather="box"></i>
-                    БЕЗОПАСНОСТЬ
-                </li>
-
-
-
-                <li class="nav-item {{ active_class(['security-report/viewReport']) }}">
-                    <a href="{{ route('security-report.viewReport') }}" class="nav-link">
-                        <span class="link-title">Все отчеты</span>
-                    </a>
-                </li>
-
-
-                <li class="nav-item {{ active_class(['security-report/index']) }}">
-                    <a href="{{ route('security-report.index') }}" class="nav-link">
-                        <span class="link-title">Создание отчета</span>
-                    </a>
-                </li>
-
-
-            @endif
-            @if (($user['role_id'] ?? "") === 1)
-                <li class="nav-item nav-category">
-                    <i class="link-icon" data-feather="box"></i>
-                    СПРАВОЧНИКИ
-                </li>
-
-
-                <li class="nav-item  mt-2 {{ active_class(['companies']) }}">
-                    <a href="{{ route('companies.all') }}" class="nav-link">
-                        <span class="link-title">ДЗО</span>
-                    </a>
-                </li>
-            @endif
-
-
-
-
-                @if (($user['role_id'] ?? "") === 1)
-                    <li class="nav-item {{ active_class(['users/*']) }}">
-                        <a class="nav-link" data-toggle="collapse" href="#users" role="button"
-                           aria-expanded="{{ is_active_route(['users/*']) }}" aria-controls="manuals">
-                            <span class="link-title">Пользователи</span>
-                            <i class="link-arrow" data-feather="chevron-down"></i>
-                        </a>
-                        <div class="collapse {{ show_class(['users/*']) }}" id="users">
-                            <ul class="nav sub-menu">
-                                <li class="nav-item">
-                                    <a href="{{ route('users.view') }}"
-                                       class="nav-link {{ active_class(['users/']) }}">Все пользователи</a>
-                                </li>
-
-                                <li class="nav-item">
-                                    <a href="{{ route('users.createView') }}"
-                                       class="nav-link {{ active_class(['users/create']) }}">Создание
-                                        пользователя</a>
-                                </li>
-
-                                <li class="nav-item">
-                                    <a href="{{ route('users.viewDzo') }}"
-                                       class="nav-link {{ active_class(['users/create']) }}">
-                                        Ответственные</a>
-                                </li>
-
-                            </ul>
-                        </div>
-                    </li>
-                @endif
-
-
-            @if (($user['role_id'] ?? "") === 1)
-                <li class="nav-item {{ active_class(['manuals/*']) }}">
-                    <a class="nav-link" data-toggle="collapse" href="#directory" role="button"
-                       aria-expanded="{{ is_active_route(['manuals/*']) }}" aria-controls="manuals">
-                        <span class="link-title">Контрагенты</span>
-                        <i class="link-arrow" data-feather="chevron-down"></i>
-                    </a>
-                    <div class="collapse {{ show_class(['manuals/*']) }}" id="directory">
-                        <ul class="nav sub-menu">
-                            <li class="nav-item">
-                                <a href="{{ route('manuals.counterparties.all') }}"
-                                   class="nav-link {{ active_class(['manuals/counterparties']) }}">Все контрагенты</a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a href="{{ route('manuals.counterparties.create') }}"
-                                   class="nav-link {{ active_class(['manuals/counterparties']) }}">Создание
-                                    Контрагента</a>
-                            </li>
-
-                        </ul>
-                    </div>
-                </li>
-            @endif
-            @if (($user['role_id'] ?? "") === 1)
-                <li class="nav-item  {{ active_class(['project/stage']) }}">
-                    <a href="{{ route('project.stage') }}" class="nav-link">
-                        <span class="link-title">Этапы проектов</span>
-                    </a>
-                </li>
-
-                <li class="nav-item  {{ active_class(['project/status']) }}">
-                    <a href="{{ route('project.status') }}" class="nav-link">
-                        <span class="link-title">Статусы проектов</span>
-                    </a>
-                </li>
-
-
-                <li class="nav-item  {{ active_class(['project/type']) }}">
-                    <a href="{{ route('project.type') }}" class="nav-link">
-                        <span class="link-title">Типы проектов</span>
-                    </a>
-                </li>
-
-                <li class="nav-item  {{ active_class(['project/productList']) }}">
-                    <a href="{{ route('project.productList') }}" class="nav-link">
-                        <span class="link-title">Продукция</span>
-                    </a>
-                </li>
-            @endif
-            @if (($user['role_id'] ?? "") === 1)
-                <li class="nav-item nav-category">
-                    <i class="link-icon" data-feather="box"></i>
-                    HR
-                </li>
-
-
-
-                <li class="nav-item {{ active_class(['hr-report*']) }}">
-                    <a class="nav-link" data-toggle="collapse" href="#directory" role="button"
-                       aria-expanded="{{ is_active_route(['hr/*']) }}" aria-controls="manuals">
-                        <span class="link-title">Сдать отчеты</span>
-                        <i class="link-arrow" data-feather="chevron-down"></i>
-                    </a>
-                    <div class="collapse {{ show_class(['hr-report*']) }}" id="directory">
-                        <ul class="nav sub-menu">
-                            <li class="nav-item">
-                                <a href="{{ route('hr-report.index') }}"
-                                   class="nav-link {{ active_class(['hr-report/index']) }}">Отчет по дивизиону</a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a href="{{ route('hr-report-covid.covid') }}"
-                                   class="nav-link {{ active_class(['hr-report-covid/addReport']) }}">Отчет по
-                                    заболевшим</a>
-                            </li>
-
-                        </ul>
-                    </div>
-                </li>
-            @endif
-
-            @if (($user['role_id'] ?? "") === 1)
-                <li class="nav-item {{ active_class(['hr-report*']) }}">
-                    <a class="nav-link" data-toggle="collapse" href="#directory" role="button"
-                       aria-expanded="{{ is_active_route(['hr/hr-report*']) }}" aria-controls="manuals">
-                        <span class="link-title">Просмотр отчеты</span>
-                        <i class="link-arrow" data-feather="chevron-down"></i>
-                    </a>
-                    <div class="collapse {{ show_class(['hr-report*']) }}" id="directory">
-                        <ul class="nav sub-menu">
-                            <li class="nav-item">
-                                <a href="{{ route('hr-report.view') }}"
-                                   class="nav-link {{ active_class(['hr-report/report_view']) }}">Отчет по дивизиону</a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="{{ route('hr-report-covid.report_covid') }}"
-                                   class="nav-link {{ active_class(['hr-report-covid/viewReport']) }}">Отчет по
-                                    заболевшим</a>
-                            </li>
-
-                        </ul>
-                    </div>
-                </li>
-            @endif
-
-            @if (($user['role_id'] ?? "") === 1 OR ($user['role_id'] ?? "") === 5 OR ($user['role_id'] ?? "") === 6 OR ($user['role_id'] ?? "") === 7)
-                <li class="nav-item nav-category">
-                    <i class="link-icon" data-feather="box"></i>
-                    Производ. показатели
-                </li>
-
-                <li class="nav-item {{ active_class(['production-report/*']) }}">
-                    <a class="nav-link" data-toggle="collapse" href="#production" role="button"
-                       aria-expanded="{{ is_active_route(['production-report/*']) }}" aria-controls="manuals">
-                        <span class="link-title">Отчеты</span>
-                        <i class="link-arrow" data-feather="chevron-down"></i>
-                    </a>
-                    <div class="collapse {{ show_class(['production-report/*']) }}" id="production">
-                        <ul class="nav sub-menu">
-                            @if (($user['role_id'] ?? "") === 1 OR ($user['role_id'] ?? "") === 5 )
-                            <li class="nav-item">
-                                <a href="{{ route('production-report.addReport') }}"
-                                   class="nav-link {{ active_class(['production-report/addReport']) }}">Сдать отчет</a>
-                            </li>
-                            @endif
-
-                            @if (($user['role_id'] ?? "") === 1 OR ($user['role_id'] ?? "") === 5 )
-                            <li class="nav-item">
-                                <a href="{{ route('production-report.report_view') }}"
-                                   class="nav-link {{ active_class(['production/report_view']) }}">Посмотреть отчет</a>
-                            </li>
-                            @endif
-
-                            @if (($user['role_id'] ?? "") === 1 OR ($user['role_id'] ?? "") === 5  OR ($user['role_id'] ?? "") === 6 OR ($user['role_id'] ?? "") === 7)
-                                <li class="nav-item">
-                                    <a href="{{ route('production-report.dashBoard') }}"
-                                       class="nav-link {{ active_class(['production/dashBoard']) }}">Дашборд</a>
-                                </li>
-                            @endif
-                        </ul>
-                    </div>
-                </li>
-            @endif
+            <li class="nav-item {{ active_class(['apps/chat']) }}">
+                <a href="{{ url('/apps/chat') }}" class="nav-link">
+                    <i class="link-icon" data-feather="message-square"></i>
+                    <span class="link-title">Chat</span>
+                </a>
+            </li>
+            <li class="nav-item {{ active_class(['apps/calendar']) }}">
+                <a href="{{ url('/apps/calendar') }}" class="nav-link">
+                    <i class="link-icon" data-feather="calendar"></i>
+                    <span class="link-title">Calendar</span>
+                </a>
+            </li>
+            <li class="nav-item nav-category">Components</li>
+            <li class="nav-item {{ active_class(['ui-components/*']) }}">
+                <a class="nav-link" data-toggle="collapse" href="#uiComponents" role="button" aria-expanded="{{ is_active_route(['ui-components/*']) }}" aria-controls="uiComponents">
+                    <i class="link-icon" data-feather="feather"></i>
+                    <span class="link-title">UI Kit</span>
+                    <i class="link-arrow" data-feather="chevron-down"></i>
+                </a>
+                <div class="collapse {{ show_class(['ui-components/*']) }}" id="uiComponents">
+                    <ul class="nav sub-menu">
+                        <li class="nav-item">
+                            <a href="{{ url('/ui-components/alerts') }}" class="nav-link {{ active_class(['ui-components/alerts']) }}">Alerts</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ url('/ui-components/badges') }}" class="nav-link {{ active_class(['ui-components/badges']) }}">Badges</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ url('/ui-components/breadcrumbs') }}" class="nav-link {{ active_class(['ui-components/breadcrumbs']) }}">Breadcrumbs</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ url('/ui-components/buttons') }}" class="nav-link {{ active_class(['ui-components/buttons']) }}">Buttons</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ url('/ui-components/button-group') }}" class="nav-link {{ active_class(['ui-components/button-group']) }}">Button group</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ url('/ui-components/cards') }}" class="nav-link {{ active_class(['ui-components/cards']) }}">Cards</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ url('/ui-components/carousel') }}" class="nav-link {{ active_class(['ui-components/carousel']) }}">Carousel</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ url('/ui-components/collapse') }}" class="nav-link {{ active_class(['ui-components/collapse']) }}">Collapse</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ url('/ui-components/dropdowns') }}" class="nav-link {{ active_class(['ui-components/dropdowns']) }}">Dropdowns</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ url('/ui-components/list-group') }}" class="nav-link {{ active_class(['ui-components/list-group']) }}">List group</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ url('/ui-components/media-object') }}" class="nav-link {{ active_class(['ui-components/media-object']) }}">Media object</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ url('/ui-components/modal') }}" class="nav-link {{ active_class(['ui-components/modal']) }}">Modal</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ url('/ui-components/navs') }}" class="nav-link {{ active_class(['ui-components/navs']) }}">Navs</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ url('/ui-components/navbar') }}" class="nav-link {{ active_class(['ui-components/navbar']) }}">Navbar</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ url('/ui-components/pagination') }}" class="nav-link {{ active_class(['ui-components/pagination']) }}">Pagination</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ url('/ui-components/popovers') }}" class="nav-link {{ active_class(['ui-components/popovers']) }}">Popvers</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ url('/ui-components/progress') }}" class="nav-link {{ active_class(['ui-components/progress']) }}">Progress</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ url('/ui-components/scrollbar') }}" class="nav-link {{ active_class(['ui-components/scrollbar']) }}">Scrollbar</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ url('/ui-components/scrollspy') }}" class="nav-link {{ active_class(['ui-components/scrollspy']) }}">Scrollspy</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ url('/ui-components/spinners') }}" class="nav-link {{ active_class(['ui-components/spinners']) }}">Spinners</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ url('/ui-components/tabs') }}" class="nav-link {{ active_class(['ui-components/tabs']) }}">Tabs</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ url('/ui-components/tooltips') }}" class="nav-link {{ active_class(['ui-components/tooltips']) }}">Tooltips</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            <li class="nav-item {{ active_class(['advanced-ui/*']) }}">
+                <a class="nav-link" data-toggle="collapse" href="#advanced-ui" role="button" aria-expanded="{{ is_active_route(['advanced-ui/*']) }}" aria-controls="advanced-ui">
+                    <i class="link-icon" data-feather="anchor"></i>
+                    <span class="link-title">Advanced UI</span>
+                    <i class="link-arrow" data-feather="chevron-down"></i>
+                </a>
+                <div class="collapse {{ show_class(['advanced-ui/*']) }}" id="advanced-ui">
+                    <ul class="nav sub-menu">
+                        <li class="nav-item">
+                            <a href="{{ url('/advanced-ui/cropper') }}" class="nav-link {{ active_class(['advanced-ui/cropper']) }}">Cropper</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ url('/advanced-ui/owl-carousel') }}" class="nav-link {{ active_class(['advanced-ui/owl-carousel']) }}">Owl Carousel</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ url('/advanced-ui/sweet-alert') }}" class="nav-link {{ active_class(['advanced-ui/sweet-alert']) }}">Sweet Alert</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            <li class="nav-item {{ active_class(['forms/*']) }}">
+                <a class="nav-link" data-toggle="collapse" href="#forms" role="button" aria-expanded="{{ is_active_route(['forms/*']) }}" aria-controls="forms">
+                    <i class="link-icon" data-feather="inbox"></i>
+                    <span class="link-title">Forms</span>
+                    <i class="link-arrow" data-feather="chevron-down"></i>
+                </a>
+                <div class="collapse {{ show_class(['forms/*']) }}" id="forms">
+                    <ul class="nav sub-menu">
+                        <li class="nav-item">
+                            <a href="{{ url('/forms/basic-elements') }}" class="nav-link {{ active_class(['forms/basic-elements']) }}">Basic Elements</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ url('/forms/advanced-elements') }}" class="nav-link {{ active_class(['forms/advanced-elements']) }}">Advanced Elements</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ url('/forms/editors') }}" class="nav-link {{ active_class(['forms/editors']) }}">Editors</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ url('/forms/wizard') }}" class="nav-link {{ active_class(['forms/wizard']) }}">Wizard</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            <li class="nav-item {{ active_class(['charts/*']) }}">
+                <a class="nav-link" data-toggle="collapse" href="#charts" role="button" aria-expanded="{{ is_active_route(['charts/*']) }}" aria-controls="charts">
+                    <i class="link-icon" data-feather="pie-chart"></i>
+                    <span class="link-title">Charts</span>
+                    <i class="link-arrow" data-feather="chevron-down"></i>
+                </a>
+                <div class="collapse {{ show_class(['charts/*']) }}" id="charts">
+                    <ul class="nav sub-menu">
+                        <li class="nav-item">
+                            <a href="{{ url('/charts/apex') }}" class="nav-link {{ active_class(['charts/apex']) }}">Apex</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ url('/charts/chartjs') }}" class="nav-link {{ active_class(['charts/chartjs']) }}">ChartJs</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ url('/charts/flot') }}" class="nav-link {{ active_class(['charts/flot']) }}">Flot</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ url('/charts/morrisjs') }}" class="nav-link {{ active_class(['charts/morrisjs']) }}">MorrisJs</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ url('/charts/peity') }}" class="nav-link {{ active_class(['charts/peity']) }}">Peity</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ url('/charts/sparkline') }}" class="nav-link {{ active_class(['charts/sparkline']) }}">Sparkline</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            <li class="nav-item {{ active_class(['tables/*']) }}">
+                <a class="nav-link" data-toggle="collapse" href="#tables" role="button" aria-expanded="{{ is_active_route(['tables/*']) }}" aria-controls="tables">
+                    <i class="link-icon" data-feather="layout"></i>
+                    <span class="link-title">Tables</span>
+                    <i class="link-arrow" data-feather="chevron-down"></i>
+                </a>
+                <div class="collapse {{ show_class(['tables/*']) }}" id="tables">
+                    <ul class="nav sub-menu">
+                        <li class="nav-item">
+                            <a href="{{ url('/tables/basic-tables') }}" class="nav-link {{ active_class(['tables/basic-tables']) }}">Basic Tables</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ url('/tables/data-table') }}" class="nav-link {{ active_class(['tables/data-table']) }}">Data Table</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            <li class="nav-item {{ active_class(['icons/*']) }}">
+                <a class="nav-link" data-toggle="collapse" href="#icons" role="button" aria-expanded="{{ is_active_route(['icons/*']) }}" aria-controls="icons">
+                    <i class="link-icon" data-feather="smile"></i>
+                    <span class="link-title">Icons</span>
+                    <i class="link-arrow" data-feather="chevron-down"></i>
+                </a>
+                <div class="collapse {{ show_class(['icons/*']) }}" id="icons">
+                    <ul class="nav sub-menu">
+                        <li class="nav-item">
+                            <a href="{{ url('/icons/feather-icons') }}" class="nav-link {{ active_class(['icons/feather-icons']) }}">Feather Icons</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ url('/icons/flag-icons') }}" class="nav-link {{ active_class(['icons/flag-icons']) }}">Flag Icons</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ url('/icons/mdi-icons') }}" class="nav-link {{ active_class(['icons/mdi-icons']) }}">Mdi Icons</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            <li class="nav-item nav-category">Pages</li>
+            <li class="nav-item {{ active_class(['general/*']) }}">
+                <a class="nav-link" data-toggle="collapse" href="#general" role="button" aria-expanded="{{ is_active_route(['general/*']) }}" aria-controls="general">
+                    <i class="link-icon" data-feather="book"></i>
+                    <span class="link-title">Special Pages</span>
+                    <i class="link-arrow" data-feather="chevron-down"></i>
+                </a>
+                <div class="collapse {{ show_class(['general/*']) }}" id="general">
+                    <ul class="nav sub-menu">
+                        <li class="nav-item">
+                            <a href="{{ url('/general/blank-page') }}" class="nav-link {{ active_class(['general/blank-page']) }}">Blank page</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ url('/general/faq') }}" class="nav-link {{ active_class(['general/faq']) }}">Faq</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ url('/general/invoice') }}" class="nav-link {{ active_class(['general/invoice']) }}">Invoice</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ url('/general/profile') }}" class="nav-link {{ active_class(['general/profile']) }}">Profile</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ url('/general/pricing') }}" class="nav-link {{ active_class(['general/pricing']) }}">Pricing</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ url('/general/timeline') }}" class="nav-link {{ active_class(['general/timeline']) }}">Timeline</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            <li class="nav-item {{ active_class(['auth/*']) }}">
+                <a class="nav-link" data-toggle="collapse" href="#auth" role="button" aria-expanded="{{ is_active_route(['auth/*']) }}" aria-controls="auth">
+                    <i class="link-icon" data-feather="unlock"></i>
+                    <span class="link-title">Authentication</span>
+                    <i class="link-arrow" data-feather="chevron-down"></i>
+                </a>
+                <div class="collapse {{ show_class(['auth/*']) }}" id="auth">
+                    <ul class="nav sub-menu">
+                        <li class="nav-item">
+                            <a href="{{ url('/auth/login') }}" class="nav-link {{ active_class(['auth/login']) }}">Login</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ url('/auth/register') }}" class="nav-link {{ active_class(['auth/register']) }}">Register</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            <li class="nav-item {{ active_class(['error/*']) }}">
+                <a class="nav-link" data-toggle="collapse" href="#error" role="button" aria-expanded="{{ is_active_route(['error/*']) }}" aria-controls="error">
+                    <i class="link-icon" data-feather="cloud-off"></i>
+                    <span class="link-title">Error</span>
+                    <i class="link-arrow" data-feather="chevron-down"></i>
+                </a>
+                <div class="collapse {{ show_class(['error/*']) }}" id="error">
+                    <ul class="nav sub-menu">
+                        <li class="nav-item">
+                            <a href="{{ url('/error/404') }}" class="nav-link {{ active_class(['error/404']) }}">404</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ url('/error/500') }}" class="nav-link {{ active_class(['error/500']) }}">500</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            <li class="nav-item nav-category">Docs</li>
+            <li class="nav-item">
+                <a href="/laravel/documentation/docs.html" target="_blank" class="nav-link">
+                    <i class="link-icon" data-feather="hash"></i>
+                    <span class="link-title">Documentation</span>
+                </a>
+            </li>
         </ul>
+    </div>
+</nav>
+<nav class="settings-sidebar">
+    <div class="sidebar-body">
+        <a href="#" class="settings-sidebar-toggler">
+            <i data-feather="settings"></i>
+        </a>
+        <h6 class="text-muted">Sidebar:</h6>
+        <div class="form-group border-bottom">
+            <div class="form-check form-check-inline">
+                <label class="form-check-label">
+                    <input type="radio" class="form-check-input" name="sidebarThemeSettings" id="sidebarLight" value="sidebar-light" checked>
+                    Light
+                </label>
+            </div>
+            <div class="form-check form-check-inline">
+                <label class="form-check-label">
+                    <input type="radio" class="form-check-input" name="sidebarThemeSettings" id="sidebarDark" value="sidebar-dark">
+                    Dark
+                </label>
+            </div>
+        </div>
+        <div class="theme-wrapper">
+            <h6 class="text-muted mb-2">Light Version:</h6>
+            <a class="theme-item active" href="/laravel/template/light/">
+                <img src="{{ url('assets/images/screenshots/light.jpg') }}" alt="light version">
+            </a>
+            <h6 class="text-muted mb-2">Dark Version:</h6>
+            <a class="theme-item" href="/laravel/template/dark">
+                <img src="{{ url('assets/images/screenshots/dark.jpg') }}" alt="light version">
+            </a>
+        </div>
     </div>
 </nav>
